@@ -6,10 +6,17 @@ class Service:
         self._contacts.append(payload)
 
     def get_contact(self, payload):
-        self._contacts[payload]
+        for i in self._contacts:
+            if(payload == i.name):
+                print(i)
 
     def get_contacts(self):
-        self._contacts
+        for i in self._contacts:
+            print(i)
 
     def del_contact(self, payload): # name
-        pass
+        cnt = 0
+        for i in self._contacts:
+            if(payload == i.name):
+                del self._contacts[cnt]
+            cnt += 1

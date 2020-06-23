@@ -13,19 +13,22 @@ if __name__ == '__main__':
     while 1:
         menu = print_menu()
         if menu == '1':
-            app.register(input('이름\n'),
-                         input('전화번호\n'),
-                         input('이메일\n'),
-                         input('주소\n'))
+            name = str(input('이름\n'))
+            phone = str(input('전화번호\n'))
+            email = str(input('이메일\n'))
+            addr = str(input('주소\n'))
+            
+            app.register(name, phone, email, addr)
 
-            if menu == '2':
-                pass
+        if menu == '2':
+            app.search(input('이름\n'))
 
-            if menu == '3':
-                pass
+        if menu == '3':
+            app.list()
 
-            if menu == '4':
-                pass
+        if menu == '4':
+            app.remove(input('이름\n'))
+            print('완료')
 
-            elif menu == '0':
-                break
+        elif menu == '0':
+            break
