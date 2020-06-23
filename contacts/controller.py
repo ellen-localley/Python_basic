@@ -3,7 +3,7 @@ from contacts.service import Service
 
 class Controller:
     def __init__(self):
-        self.service = Service()
+        self._service = Service()
 
     def register(self, name, phone, email, addr):
         model = Model()
@@ -11,13 +11,13 @@ class Controller:
         model.phone = phone
         model.email = email
         model.addr = addr
-        self.service.add_contact(model)
+        self._service.add_contact(model)
 
     def search(self, name):
-        self.service.get_contact(name)
+        return self._service.get_contact(name)
 
     def list(self):
-        self.service.get_contacts()
+        return self._service.get_contacts()
 
     def remove(self, name):
-        self.service.del_contact(name)
+        self._service.del_contact(name)

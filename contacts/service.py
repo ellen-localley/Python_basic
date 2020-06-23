@@ -7,16 +7,13 @@ class Service:
 
     def get_contact(self, payload):
         for i in self._contacts:
-            if(payload == i.name):
-                print(i)
+            if payload == i.name:
+                return i
 
     def get_contacts(self):
-        for i in self._contacts:
-            print(i)
+        return self._contacts
 
     def del_contact(self, payload): # name
-        cnt = 0
         for i in self._contacts:
-            if(payload == i.name):
-                del self._contacts[cnt]
-            cnt += 1
+            if payload == i.name:
+                self._contacts.remove(i)
