@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 from urllib.request import urlopen
+from selenium import webdriver
+import requests
 
 
 class Model:
@@ -47,6 +49,18 @@ class Service:
             print(str(n_title) + '위')
             print('노래제목: {}'.format(i.text))
 
+    def naver_movie(self, payload):
+        driver = webdriver.Chrome(payload.path)
+        driver.get(payload.url)
+        soup = BeautifulSoup(urlopen(payload.url), payload.parser)
+        # print(soup.prettify())
+        all_divs = soup.find_all('div', attrs={'class':'tit3'})
+        arr = [div.a.string for div in all_divs]
+        for i in arr:
+            print(i)
+        driver.close()
+
+
 
 class Controller:
     def __init__(self):
@@ -57,12 +71,20 @@ class Controller:
         self.model.url = url
         self.model.parser = 'lxml'
         self.service.bugs_music(self.model)
+        
+    # html.parser
+    def naver_movie(self, url):
+        self.model.url = url
+        self.model.parser = 'html.parser'
+        self.model.path = 'C:\\Users\\bit25\\PycharmProjects\\pythonBasic\\basic\\data\\chromedriver.exe'
+        self.service.naver_movie(self.model)
 
 
 def print_menu():
     print('0. Exit')
     print('1. 벅스 크롤링')
-    return input('Menu\n')
+    print('2. 네이버 영화')
+    return input('메뉴선택\n')
 
 
 app = Controller()
@@ -74,3 +96,7 @@ while 1:
 
     if menu == '1':
         app.bugs_music('https://music.bugs.co.kr/chart/track/realtime/total?chartdate=20200625&charthour=12')
+
+    if menu == '2':
+        app.naver_movie('http://movie.naver.com/movie/sdb/rank/rmovie.nhn')
+        
