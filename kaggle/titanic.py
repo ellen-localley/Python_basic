@@ -1,3 +1,5 @@
+import pandas as pd
+
 class Entity: # context(str), fname(str), train(object), test(object), id(str), label(str)
     context: str
     fname: str
@@ -43,14 +45,38 @@ class Entity: # context(str), fname(str), train(object), test(object), id(str), 
     def label(self, label): self._label = label
 
 
+"""
+['PassengerId', 'Survived', 'Pclass', 'Name', 'Sex', 'Age', 'SibSp',
+       'Parch', 'Ticket', 'Fare', 'Cabin', 'Embarked']
+       PassengerId  고객ID,
+Survived 생존여부,
+Pclass 승선권 1 = 1등석, 2 = 2등석, 3 = 3등석,
+Name,
+Sex,
+Age,
+SibSp 동반한 형제, 자매, 배우자,
+Parch 동반한 부모, 자식,
+Ticket 티켓번호,
+Fare 요금,
+Cabin 객실번호,
+Embarked 승선한 항구명 C = 쉐브루, Q = 퀸즈타운, S = 사우스햄튼
+print(f’결정트리 활용한 검증 정확도 {None}‘)
+print(f’랜덤포레스트 활용한 검증 정확도 {None}‘)
+print(f’나이브베이즈 활용한 검증 정확도 {None}‘)
+print(f’KNN 활용한 검증 정확도 {None}‘)
+print(f’SVM 활용한 검증 정확도 {None}’)
+"""
+
+
 class Service:
     def __init__(self):
         self.entity = Entity()
 
-    def new_entity(self,payload):
+    def new_model(self,payload):
         this = self.entity
         this.context = './data/'
         this.fname = payload
+        return pd.read_csv(this.context + this.fname)
 
 
 class Controller:
@@ -66,7 +92,11 @@ class Controller:
         return this
 
     def preprocess(self, train, test):
-        pass
+        service = self.service
+        this = self.entity
+        this.train = service.new_model(train)
+        # print(f'트레인의 컬럼: {this.train.columns}')
+        print(f'테스트의 컬럼 : {this.train.columns}')
 
 
 def print_menu():
@@ -75,7 +105,13 @@ def print_menu():
     return input('Menu\n')
 
 
+app = Controller()
+
 while 1:
     menu = print_menu()
     if menu == '0':
+        break
+
+    if menu =='1':
+        app.preprocess('train.csv','test.csv')
         break
